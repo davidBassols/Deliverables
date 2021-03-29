@@ -1,13 +1,13 @@
-package com.zerosmet.beer.catalogue.controller;
+package com.zerosmet.beer.catalogue.rest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BeerCatalogueControllerApplication {
+public class BeerCatalogueRestApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BeerCatalogueControllerApplication.class, args);
+		SpringApplication.run(BeerCatalogueRestApplication.class, args);
 	}
 
 }
