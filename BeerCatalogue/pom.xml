@@ -8,6 +8,6 @@
   <modules>
   	<module>BeerCatalogueCommons</module>
   	<module>BeerCatalogueAPI</module>
-  	<module>BeerCatalogueController</module>
+  	<module>BeerCatalogueRest</module>
   </modules>
 </project>
