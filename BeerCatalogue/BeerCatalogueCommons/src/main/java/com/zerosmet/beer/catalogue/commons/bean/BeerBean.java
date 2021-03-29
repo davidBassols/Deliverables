@@ -2,6 +2,7 @@ package com.zerosmet.beer.catalogue.commons.bean;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,9 +24,13 @@ public class BeerBean implements Serializable{
         strategy = "org.hibernate.id.UUIDGenerator"
     )
 	private String id;
+	@Column(nullable = false)
 	private String name;
+	@Column(nullable = false)
 	private String description;
+	@Column(nullable = false)
 	private float graduation;
+	@Column(nullable = false)
 	private String beerType;
 	@ManyToOne
     @JoinColumn(name = "manufacturer_id", insertable = false, updatable = false)

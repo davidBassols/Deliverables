@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.zerosmet.beer.catalogue.api.services.ManufacturerServices;
 import com.zerosmet.beer.catalogue.commons.bean.ManufacturerBean;
+import com.zerosmet.beer.catalogue.commons.bean.SortPaginationBean;
 import com.zerosmet.beer.catalogue.commons.exception.ItemNotFoundException;
 import com.zerosmet.beer.catalogue.commons.exception.MissingParameterException;
 
@@ -34,9 +35,9 @@ public class ManufacturerController {
 	}
 
 	@GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ManufacturerBean>> getAllBeers() {
+	public ResponseEntity<List<ManufacturerBean>> getAllBeers(@RequestBody(required=false) SortPaginationBean sortPaginationBean) {
 		logger.debug("GET /manufacturer");
-		List<ManufacturerBean> result = manufacturerServices.getAll();
+		List<ManufacturerBean> result = manufacturerServices.getAll(sortPaginationBean);
 		return new ResponseEntity<List<ManufacturerBean>>(result, HttpStatus.OK);
 	}
 

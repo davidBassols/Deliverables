@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import com.zerosmet.beer.catalogue.api.repository.BeerRepository;
 import com.zerosmet.beer.catalogue.commons.bean.BeerBean;
+import com.zerosmet.beer.catalogue.commons.bean.SortPaginationBean;
 import com.zerosmet.beer.catalogue.commons.exception.ItemNotFoundException;
 import com.zerosmet.beer.catalogue.commons.exception.MissingParameterException;
+import com.zerosmet.beer.catalogue.commons.util.PaginationUtils;
 
 @Service
 public class BeerServices {
@@ -20,9 +26,14 @@ public class BeerServices {
 		this.beerRepository = beerRepository;
 	}
 	
-	public List<BeerBean> getAll(){
+	public List<BeerBean> getAll(SortPaginationBean sortPaginationBean){
+		sortPaginationBean = PaginationUtils.clearPagination(sortPaginationBean);
+		List<Order> orders = new ArrayList<Order>();
+		orders.add(new Order(sortPaginationBean.getSortType(), sortPaginationBean.getSortColumn()));
+		Pageable paging = PageRequest.of(sortPaginationBean.getPage(), sortPaginationBean.getItemsXPage(), Sort.by(orders));
+		
 		List<BeerBean> beers = new ArrayList<BeerBean>();
-		Iterable<BeerBean> iter = beerRepository.findAll();
+		Iterable<BeerBean> iter = beerRepository.findAll(paging);
 		iter.forEach(beers::add);
 		return beers;
 	}
@@ -51,4 +62,5 @@ public class BeerServices {
 	public void delete(String id) {
 		beerRepository.deleteById(id);
 	}
+	
 }
