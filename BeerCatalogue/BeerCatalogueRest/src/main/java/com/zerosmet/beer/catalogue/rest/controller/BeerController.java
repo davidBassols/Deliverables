@@ -19,9 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.zerosmet.beer.catalogue.api.services.BeerServices;
 import com.zerosmet.beer.catalogue.commons.bean.BeerBean;
+import com.zerosmet.beer.catalogue.commons.bean.SearchBean;
 import com.zerosmet.beer.catalogue.commons.bean.SortPaginationBean;
+import com.zerosmet.beer.catalogue.commons.exception.EmptySearchException;
 import com.zerosmet.beer.catalogue.commons.exception.ItemNotFoundException;
 import com.zerosmet.beer.catalogue.commons.exception.MissingParameterException;
+import com.zerosmet.beer.catalogue.commons.exception.WrongComparissonException;
+import com.zerosmet.beer.catalogue.commons.exception.WrongSearchValueException;
 
 @Controller
 @RequestMapping("/beer")
@@ -80,4 +84,11 @@ public class BeerController {
 		beerServices.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	} 
+
+	@GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<BeerBean>> search(@RequestBody(required=false) SearchBean searchBean) throws WrongComparissonException, EmptySearchException, WrongSearchValueException {
+		logger.debug("GET /beer/search");
+		List<BeerBean> result = beerServices.search(searchBean);
+		return new ResponseEntity<List<BeerBean>>(result, HttpStatus.OK);
+	}
 }
